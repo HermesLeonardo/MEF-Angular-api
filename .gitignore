@@ -1,0 +1,22 @@
+# Ignorar node_modules
+node_modules/
+
+# Ignorar .env (configurações sensíveis)
+.env
+
+# Ignorar dist se você compilar para produção depois
+dist/
+
+# Logs
+logs
+*.log
+
+# MacOS junk files
+.DS_Store
+
+# IDE config
+.vscode/
+.idea/
+
+# Output da build se usar algum
+build/
