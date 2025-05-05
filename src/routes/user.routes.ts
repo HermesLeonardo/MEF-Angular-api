@@ -1,12 +1,42 @@
 import { Router } from 'express';
-import * as userController from '../controllers/user.controller';
+import { Request, Response } from 'express';
+
+import {
+  getAllUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+  loginUser,
+  uploadUserPhoto,
+  getUserPhoto,
+  getProfile,
+  updateProfile,
+  updatePassword,
+  deleteProfile
+} from '../controllers/user.controller';
+import { upload } from '../config/upload-config';
 
 const router = Router();
 
-router.get('/', userController.getAllUsers);
-router.get('/:id', userController.getUserById);
-router.post('/', userController.createUser);
-router.put('/:id', userController.updateUser);
-router.delete('/:id', userController.deleteUser);
+// CRUD padrão
+router.get('/', getAllUsers);
+router.get('/:id', getUserById as any);
+router.post('/', createUser);
+router.put('/:id', updateUser);
+router.delete('/:id', deleteUser);
+
+// Rotas para a tela de perfil (usuário logado)
+router.get('/me/profile', getProfile);
+router.put('/me/profile', updateProfile);
+router.put('/me/password', updatePassword);
+router.delete('/me', deleteProfile);
+
+// Login
+router.post('/login', loginUser);
+
+// Foto de perfil
+router.post('/:id/photo', upload.single('photo'), uploadUserPhoto);
+router.get('/:id/photo', getUserPhoto);
 
 export default router;
