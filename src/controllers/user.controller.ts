@@ -82,6 +82,7 @@ export const uploadUserPhoto = async (req: Request, res: Response): Promise<void
   }
 };
 
+
 // Busca foto do usuário
 export const getUserPhoto = async (req: Request, res: Response): Promise<void> => {
   const id = parseInt(req.params.id, 10);
@@ -172,5 +173,23 @@ export const deleteProfile = async (req: Request, res: Response) => {
     res.json({ message: 'Conta excluída com sucesso' });
   } catch {
     res.status(500).json({ message: 'Erro ao excluir conta' });
+  }
+};
+
+// Cria novo usuário com upload de foto (via formData)
+export const createUserWithPhoto = async (req: Request, res: Response) => {
+  try {
+    const { name, email, password, role, telefone, cpf } = req.body;
+    const photo = req.file?.buffer || null;
+
+    const userData = { name, email, password, role, telefone, cpf, photo };
+
+    const result = await userModel.createUserWithPhoto(userData);
+
+    const { password: _, ...userWithoutPassword } = userData;
+    res.status(201).json(userWithoutPassword);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao cadastrar usuário' });
   }
 };
