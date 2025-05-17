@@ -13,7 +13,8 @@ import {
   getProfile,
   updateProfile,
   updatePassword,
-  deleteProfile
+  deleteProfile,
+  createUserWithPhoto
 } from '../controllers/user.controller';
 import { upload } from '../config/upload-config';
 
@@ -34,6 +35,8 @@ router.delete('/me', deleteProfile);
 
 // Login
 router.post('/login', loginUser);
+// Cadastro com upload de foto
+router.post('/register', upload.single('photo'), createUserWithPhoto);
 
 // Foto de perfil
 router.post('/:id/photo', upload.single('photo'), uploadUserPhoto);
